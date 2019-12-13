@@ -13,14 +13,12 @@
       </div>
   </div>
 
-{% if object == request.user %}
-<!-- Action buttons -->
 <div class="row">
 
   <div class="col-sm-12">
     <form class="form-horizontal" method="post" action="{% url 'generic_data:create' %}">
     {% csrf_token %}
-    {{ form|crispy }}
+    {{ form.as_p }}
     <div class="control-group">
       <div class="controls">
         <button type="submit" class="btn btn-primary">Add</button>
@@ -30,8 +28,6 @@
   </div>
 
 </div>
-<!-- End Action buttons -->
-{% endif %}
 
 
 </div>
