@@ -4,31 +4,73 @@
 {% block title %}{{ object.username }}: add data{% endblock %}
 
 {% block content %}
-<div class="container">
+  <div class="container">
 
-  <div class="row">
-    <div class="col-sm-12">
+    <div class="row">
+      <div class="col-sm-12">
 
-      <h2>{{ object.username }}</h2>
-      </div>
-  </div>
-
-<div class="row">
-
-  <div class="col-sm-12">
-    <form class="form-horizontal" method="post" action="{% url 'generic_data:create' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <div class="control-group">
-      <div class="controls">
-        <button type="submit" class="btn btn-primary">Add</button>
+        <h2>{{ object.username }}</h2>
       </div>
     </div>
-  </form>
+
+    <div class="row">
+
+      <div class="col-sm-12">
+          {#    <form class="form-horizontal" method="post"#}
+          {#          action="{% url 'generic_data:create' %}">#}
+          {#        {% csrf_token %}#}
+          {#        {{ form.as_p }}#}
+          {#      <div class="control-group">#}
+          {#        <div class="controls">#}
+          {#          <button type="submit" class="btn btn-primary">Add</button>#}
+          {#        </div>#}
+          {#      </div>#}
+          {#    </form>#}
+        <form class="form-horizontal" method="POST" action="">
+            {% csrf_token %}
+            {{ formset.management_form }}
+            {% for form in formset %}
+              <div class="row form-row spacer">
+                <div class="col-2">
+                  <label>{{ form.title.label }}</label>
+                </div>
+                <div class="col-4">
+                  <div class="input-group">
+                      {{ form.title }}
+                  </div>
+                </div>
+                <div class="col-2">
+                  <label>{{ form.type_field.label }}</label>
+                </div>
+                <div class="col-4">
+                  <div class="input-group">
+                      {{ form.type_field }}
+                  </div>
+                </div>
+                <div class="col-2">
+                  <label>{{ form.value.label }}</label>
+                </div>
+                <div class="col-4">
+                  <div class="input-group">
+                      {{ form.value }}
+                    <div class="input-group-append">
+                      <button class="btn btn-success add-form-row">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          <div class="row spacer">
+            <div class="col-4 offset-2">
+              <button type="submit" class="btn btn-block btn-primary">Create
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+
   </div>
-
-</div>
-
-
-</div>
 {% endblock content %}
