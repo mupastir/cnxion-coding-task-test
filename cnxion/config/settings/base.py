@@ -267,3 +267,13 @@ SOCIALACCOUNT_ADAPTER = "cnxion.users.adapters.SocialAccountAdapter"
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+SCHEME = {
+    "age": {
+        "type": "integer",
+        "nullable": True
+    },
+    "name": {
+        "type": "string",
+        "nullable": True
+    }
+}
