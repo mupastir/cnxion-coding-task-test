@@ -11,6 +11,24 @@ CNXION coding task
      :alt: Black code style
 
 
+Generic data
+------------
+Generic data app is based on model with 3 fields:
+    - Title - string
+    - Data - JSON
+    - Scheme - JSON
+
+
+I prefer to use JSON field for data, cause in django
+multiple keys can be chained together to form a path lookup, it is very
+comfortable to use.
+
+For every instance of this model data is validated by set scheme in settings.
+
+For validator it was used module `cerberus <https://pypi.org/project/Cerberus/>`_.
+
+
+
 Settings
 --------
 

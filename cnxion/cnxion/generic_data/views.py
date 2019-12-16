@@ -1,26 +1,12 @@
-from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
 
-from cnxion.generic_data.forms import GenericFormset
-from cnxion.generic_data.services import create_generic_data, save_generic_model
-from cnxion.generic_data.utils.validators import is_valid_generic_model_form
+from .forms import GenericModelForm
+from .models import GenericModel
 
 
-def generic_create_view(request):
+class CreateGenericModelView(CreateView):
+    model = GenericModel
+    form_class = GenericModelForm
     template_name = 'generic_data/genericmodel_form.html'
-    heading_message = 'Add generic data'
-    if request.method == 'GET':
-        formset = GenericFormset(request.GET or None)
-    elif request.method == 'POST':
-        formset = GenericFormset(request.POST)
-        if formset.is_valid():
-            data = {}
-            for form in formset:
-                if not is_valid_generic_model_form(form):
-                    break
-                data.update(create_generic_data(form))
-            save_generic_model(data)
-            return redirect('home')
-    return render(request, template_name, {
-        'formset': formset,
-        'heading': heading_message,
-    })
+    success_url = reverse_lazy('generic_data:create')

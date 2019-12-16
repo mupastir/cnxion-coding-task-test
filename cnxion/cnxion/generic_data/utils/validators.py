@@ -1,12 +1,17 @@
-from cnxion.generic_data.forms import GenericUniversalForm
+from cerberus import Validator
+from django.core.exceptions import ValidationError
 
 
-def is_valid_generic_model_form(form: GenericUniversalForm) -> bool:
-    data_type = form.cleaned_data.get("type_field")
-    value = form.cleaned_data.get("value")
-    try:
-        data_type = eval(data_type)
-        data_type(value)
-    except ValueError:
-        return False
-    return True
+def validate_data(scheme, data):
+    validator = Validator(scheme)
+    if not validator.validate(data):
+        return validator.errors
+
+
+def errors_to_validation_error(error_list):
+    django_errors = []
+    for field_name in error_list.keys():
+        for error_string in error_list[field_name]:
+            django_errors.append(ValidationError(
+                'Field {} {}'.format(field_name, error_string)))
+    return django_errors
