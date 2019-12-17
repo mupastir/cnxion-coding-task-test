@@ -6,9 +6,7 @@ from .utils.validators import validate_data
 
 
 class GenericModel(models.Model):
-    title = models.CharField(max_length=32, null=False)
     _data = JSONField(null=True)
-    scheme = JSONField(default=settings.SCHEME)
 
     @property
     def data(self):
@@ -16,7 +14,7 @@ class GenericModel(models.Model):
 
     @data.setter
     def data(self, value):
-        errors = validate_data(self.scheme, value)
+        errors = validate_data(settings.SCHEME, value)
         if errors is None:
             self._data = value
         else:
@@ -24,4 +22,4 @@ class GenericModel(models.Model):
                 'Could not set to new value. Reasons: {}'.format(errors))
 
     def __str__(self):
-        return self.title
+        return str(self._data)
