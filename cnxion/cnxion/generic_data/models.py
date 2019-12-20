@@ -7,6 +7,7 @@ from .utils.validators import validate_data
 
 class GenericModel(models.Model):
     _data = JSONField(null=True)
+    data_type = models.CharField(max_length=50, null=False)
 
     @property
     def data(self):
@@ -14,7 +15,7 @@ class GenericModel(models.Model):
 
     @data.setter
     def data(self, value):
-        errors = validate_data(settings.SCHEME, value)
+        errors = validate_data(settings.SCHEME[self.data_type], value)
         if errors is None:
             self._data = value
         else:

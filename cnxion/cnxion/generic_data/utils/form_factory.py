@@ -5,16 +5,18 @@ from django import forms
 MAPPING_TYPES_FORM_FIELDS = {
     'string': forms.CharField,
     'integer': forms.IntegerField,
-    'date': forms.DateField,
-    'datetime': forms.DateTimeField,
-    'float': forms.FloatField
+    'float': forms.FloatField,
+    'bool': forms.BooleanField
 }
 
 
 class FormFactory:
     @classmethod
-    def create(cls, name: str, scheme: dict, bases: Iterable) -> forms.Form:
+    def create(cls, name: str,
+               scheme: dict,
+               bases: Iterable) -> type(forms.Form):
         attrs = {k: MAPPING_TYPES_FORM_FIELDS[v['type']]()
                  for k, v in scheme.items()}
         attrs['SCHEME'] = scheme
-        return type(name, tuple(bases) or (forms.Form,), attrs)
+        attrs['data_type'] = name
+        return type(f'{name}Form', tuple(bases) or (forms.Form,), attrs)

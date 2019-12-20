@@ -58,10 +58,12 @@
                 {# URL provided by django-allauth/account/urls.py #}
                 <a class="nav-link" href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
               </li>
+              {% for name, data_url in generic_data_urls.items %}
               <li class="nav-item">
                 {# URL for adding generic data #}
-                <a class="nav-link" href="{% url 'generic_data:create' %}">{% trans "Add data" %}</a>
+                <a class="nav-link" href="{% url data_url %}">{{ "Add "|add:name }}</a>
               </li>
+              {% endfor %}
             {% else %}
               <li class="nav-item">
                 {# URL provided by django-allauth/account/urls.py #}

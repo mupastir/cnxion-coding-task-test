@@ -3,7 +3,7 @@
 {% block title %}Add new GenericModel instance{% endblock %}
 
 {% block content %}
-<form action="{% url 'generic_data:create' %}" method="POST">{% csrf_token %}
+<form action="{% url view.extra_context.form_post_url %}" method="POST">{% csrf_token %}
   {{ form.as_p }}
   <input type="submit" value="Create">
 </form>

@@ -5,10 +5,21 @@ from django.urls import include, path
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
 
+
+class RootView(TemplateView):
+    template_name = "pages/home.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['generic_data_urls'] = {
+            name: f'generic_data:create_{name.lower()}'
+            for name in settings.SCHEME.keys()
+        }
+        return context
+
+
 urlpatterns = [
-                  path("",
-                       TemplateView.as_view(template_name="pages/home.html"),
-                       name="home"),
+                  path("", RootView.as_view(), name="home"),
                   path(
                       "about/",
                       TemplateView.as_view(template_name="pages/about.html"),

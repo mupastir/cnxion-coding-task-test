@@ -1,10 +1,18 @@
-from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
-from .forms import GenericModelForm
+from cnxion.generic_data.utils.views_factory import ViewFactory
+
+from .forms import generic_model_forms_registry
+
+views_registry = []
 
 
 class CreateGenericModelView(CreateView):
-    form_class = GenericModelForm
-    template_name = 'generic_data/genericmodel_form.html'
-    success_url = reverse_lazy('generic_data:create')
+    class Meta:
+        abstract = True
+
+
+generic_model_views_registry = {
+    name: ViewFactory.create(name, form, (CreateGenericModelView,))
+    for name, form in generic_model_forms_registry.items()
+}
